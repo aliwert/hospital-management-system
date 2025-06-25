@@ -10,7 +10,7 @@ import (
 )
 
 func SetupDepartmentRoutes(router fiber.Router) {
-	departmentRepo := repositories.NewDepartmentRepository(database.GetDB())
+	departmentRepo := repositories.NewDepartmentRepository(database.GetSqlDB())
 	departmentService := services.NewDepartmentService(departmentRepo)
 	departmentHandler := handlers.NewDepartmentHandler(departmentService)
 

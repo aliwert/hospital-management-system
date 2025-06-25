@@ -10,7 +10,7 @@ import (
 )
 
 func SetupTestResultRoutes(router fiber.Router) {
-	testResultRepo := repositories.NewTestResultRepository(database.GetDB())
+	testResultRepo := repositories.NewTestResultRepository(database.GetSqlDB())
 	testResultService := services.NewTestResultService(testResultRepo)
 	testResultHandler := handlers.NewTestResultHandler(testResultService)
 

@@ -11,7 +11,7 @@ import (
 
 func SetupInventoryRoutes(router fiber.Router) {
 	// Initialize inventory components
-	inventoryRepo := repositories.NewInventoryRepository(database.GetDB())
+	inventoryRepo := repositories.NewInventoryRepository(database.GetSqlDB())
 	inventoryService := services.NewInventoryService(inventoryRepo)
 	inventoryHandler := handlers.NewInventoryHandler(inventoryService)
 

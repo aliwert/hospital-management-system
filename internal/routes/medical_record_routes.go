@@ -10,7 +10,7 @@ import (
 )
 
 func SetupMedicalRecordRoutes(router fiber.Router) {
-	medicalRecordRepo := repositories.NewMedicalRecordRepository(database.GetDB())
+	medicalRecordRepo := repositories.NewMedicalRecordRepository(database.GetSqlDB())
 	medicalRecordService := services.NewMedicalRecordService(medicalRecordRepo)
 	medicalRecordHandler := handlers.NewMedicalRecordHandler(medicalRecordService)
 

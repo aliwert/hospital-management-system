@@ -1,17 +1,20 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 	"time"
 
 	"github.com/aliwert/go-hospital-management/internal/models"
+	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
+var SqlDB *sql.DB
 
 func InitDB() {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -21,17 +24,34 @@ func InitDB() {
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"))
 
+	// Initialize GORM DB
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
+	// Initialize raw SQL DB
+	sqlDB, err := sql.Open("postgres", dsn)
+	if err != nil {
+		log.Fatal("Failed to connect to database with raw SQL:", err)
+	}
+
+	// Test raw SQL connection
+	if err := sqlDB.Ping(); err != nil {
+		log.Fatal("Failed to ping database with raw SQL:", err)
+	}
+
 	// Set connection pool
-	sqlDB, err := db.DB()
+	gormSqlDB, err := db.DB()
 	if err != nil {
 		log.Fatal("Failed to get database instance:", err)
 	}
 
+	gormSqlDB.SetMaxIdleConns(10)
+	gormSqlDB.SetMaxOpenConns(100)
+	gormSqlDB.SetConnMaxLifetime(time.Hour)
+
+	// Set connection pool for raw SQL
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Hour)
@@ -54,11 +74,16 @@ func InitDB() {
 	}
 
 	DB = db
+	SqlDB = sqlDB
 	log.Println("Database connection established successfully")
 }
 
 func GetDB() *gorm.DB {
 	return DB
+}
+
+func GetSqlDB() *sql.DB {
+	return SqlDB
 }
 
 // HealthCheck performs a health check on the database

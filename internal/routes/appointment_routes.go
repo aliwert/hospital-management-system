@@ -10,7 +10,7 @@ import (
 )
 
 func SetupAppointmentRoutes(router fiber.Router) {
-	appointmentRepo := repositories.NewAppointmentRepository(database.GetDB())
+	appointmentRepo := repositories.NewAppointmentRepository(database.GetSqlDB())
 	appointmentService := services.NewAppointmentService(appointmentRepo)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 

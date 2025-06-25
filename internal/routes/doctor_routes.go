@@ -11,7 +11,7 @@ import (
 
 func SetupDoctorRoutes(router fiber.Router) {
 	// Initialize doctor components
-	doctorRepo := repositories.NewDoctorRepository(database.GetDB())
+	doctorRepo := repositories.NewDoctorRepository(database.GetSqlDB())
 	doctorService := services.NewDoctorService(doctorRepo)
 	doctorHandler := handlers.NewDoctorHandler(doctorService)
 

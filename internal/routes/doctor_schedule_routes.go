@@ -10,7 +10,7 @@ import (
 )
 
 func SetupDoctorScheduleRoutes(router fiber.Router) {
-	scheduleRepo := repositories.NewDoctorScheduleRepository(database.GetDB())
+	scheduleRepo := repositories.NewDoctorScheduleRepository(database.GetSqlDB())
 	scheduleService := services.NewDoctorScheduleService(scheduleRepo)
 	scheduleHandler := handlers.NewDoctorScheduleHandler(scheduleService)
 

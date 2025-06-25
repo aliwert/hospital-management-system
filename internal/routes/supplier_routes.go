@@ -11,7 +11,7 @@ import (
 
 func SetupSupplierRoutes(router fiber.Router) {
 	// Initialize supplier components
-	supplierRepo := repositories.NewSupplierRepository(database.GetDB())
+	supplierRepo := repositories.NewSupplierRepository(database.GetSqlDB())
 	supplierService := services.NewSupplierService(supplierRepo)
 	supplierHandler := handlers.NewSupplierHandler(supplierService)
 

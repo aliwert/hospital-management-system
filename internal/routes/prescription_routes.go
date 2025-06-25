@@ -10,7 +10,7 @@ import (
 )
 
 func SetupPrescriptionRoutes(router fiber.Router) {
-	prescriptionRepo := repositories.NewPrescriptionRepository(database.GetDB())
+	prescriptionRepo := repositories.NewPrescriptionRepository(database.GetSqlDB())
 	prescriptionService := services.NewPrescriptionService(prescriptionRepo)
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService)
 

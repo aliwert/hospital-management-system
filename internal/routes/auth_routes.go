@@ -10,7 +10,7 @@ import (
 )
 
 func SetupAuthRoutes(router fiber.Router) {
-	authRepo := repositories.NewUserRepository(database.GetDB())
+	authRepo := repositories.NewUserRepository(database.GetSqlDB())
 	authService := services.NewAuthService(authRepo)
 	authHandler := handlers.NewAuthHandler(authService)
 

@@ -10,7 +10,7 @@ import (
 )
 
 func SetupPatientRoutes(router fiber.Router) {
-	patientRepo := repositories.NewPatientRepository(database.GetDB())
+	patientRepo := repositories.NewPatientRepository(database.GetSqlDB())
 	patientService := services.NewPatientService(patientRepo)
 	patientHandler := handlers.NewPatientHandler(patientService)
 
